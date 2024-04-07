@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class InMemoryHistoryManagerTest {
     @Test
-    public void tasks_added_to_HistoryManager_retain_previous_version_of_task() {
+    public void tasks_added_to_historyManager_retain_previous_version_of_task() {
         // setup
         TaskManager taskManager = Managers.getDefault();
         HistoryManager defaultHistory = Managers.getDefaultHistory();
