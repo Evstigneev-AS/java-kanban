@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class ManagersTest {
     @Test
-    public void getDefault_checkResult() {
+    public void getDefaultCheckResult() {
         // setup
         InMemoryTaskManager taskManager = new InMemoryTaskManager();
         Managers managers = new Managers();
@@ -21,7 +21,7 @@ class ManagersTest {
     }
 
     @Test
-    public void getDefault_inMemoryTaskManagerIsNull_checkResult() {
+    public void getDefaultInMemoryTaskManagerIsNullCheckResult() {
         // setup
         Managers managers = new Managers();
         Managers.setTaskManager(null);
@@ -34,7 +34,7 @@ class ManagersTest {
     }
 
     @Test
-    public void getDefaultHistory_checkResult() {
+    public void getDefaultHistoryCheckResult() {
         // setup
         InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
         Managers managers = new Managers();
@@ -48,7 +48,7 @@ class ManagersTest {
     }
 
     @Test
-    public void getDefaultHistory_inMemoryHistoryManagerIsNull_checkResult() {
+    public void getDefaultHistoryInMemoryHistoryManagerIsNullCheckResult() {
         // setup
         Managers managers = new Managers();
         Managers.setHistoryManager(null);

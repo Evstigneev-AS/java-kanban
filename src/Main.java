@@ -28,16 +28,16 @@ public class Main {
                 Task.Status.NEW, epic1));
 
 
-        manager.getById(id4);
-        manager.getById(id4);
-        manager.getById(id5);
-        manager.getById(id5);
-        manager.getById(id3);
-        manager.getById(id3);
-        manager.getById(id1);
-        manager.getById(id1);
-        manager.getById(id2);
-        manager.getById(id2);
+        manager.taskById(id4);
+        manager.taskById(id4);
+        manager.taskById(id5);
+        manager.taskById(id5);
+        manager.taskById(id3);
+        manager.taskById(id3);
+        manager.taskById(id1);
+        manager.taskById(id1);
+        manager.taskById(id2);
+        manager.taskById(id2);
 
         printAllTasks(manager, historyTask);
         manager.updateTask(new Task(id1, "Поход в магазин", "Купить хлеб", Task.Status.IN_PROGRESS));

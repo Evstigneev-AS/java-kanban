@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class InMemoryTaskManagerTest {
 
     @Test
-    public void createTask_checkTaskAdded() {
+    public void createTaskCheckTaskAdded() {
         // setup
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
         Task task = new Task("Test addNewTask", "Test addNewTask description", NEW);
@@ -23,12 +23,12 @@ class InMemoryTaskManagerTest {
         Long taskId = inMemoryTaskManager.createTask(task);
 
         // verify
-        Task byId = inMemoryTaskManager.getById(taskId);
+        Task byId = inMemoryTaskManager.taskById(taskId);
         assertEquals(byId, task);
     }
 
     @Test
-    public void createEpic_checkEpicAdded() {
+    public void createEpicCheckEpicAdded() {
         // setup
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
         Epic epic = new Epic("Test addNewTask", "Test addNewTask description", NEW);
@@ -37,12 +37,12 @@ class InMemoryTaskManagerTest {
         Long epicId = inMemoryTaskManager.createEpic(epic);
 
         // verify
-        Task byId = inMemoryTaskManager.getById(epicId);
+        Task byId = inMemoryTaskManager.taskById(epicId);
         assertEquals(byId, epic);
     }
 
     @Test
-    public void createSubtask_checkSubtaskAdded() {
+    public void createSubtaskCheckSubtaskAdded() {
         // setup
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
         Epic epic = new Epic("Test addNewTask", "Test addNewTask description", NEW);
@@ -52,12 +52,12 @@ class InMemoryTaskManagerTest {
         Long subtaskId = inMemoryTaskManager.createSubtask(subtask);
 
         // verify
-        Task byId = inMemoryTaskManager.getById(subtaskId);
+        Task byId = inMemoryTaskManager.taskById(subtaskId);
         assertEquals(byId, subtask);
     }
 
     @Test
-    public void createTask_checkEveryField() {
+    public void createTaskCheckEveryField() {
         // setup
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
 
@@ -65,7 +65,7 @@ class InMemoryTaskManagerTest {
         Long taskId = inMemoryTaskManager.createTask(new Task(47L, "Test addNewTask", "Test addNewTask description", NEW));
 
         // verify
-        Task byId = inMemoryTaskManager.getById(taskId);
+        Task byId = inMemoryTaskManager.taskById(taskId);
         assertEquals(byId.getId(), 47L);
         assertEquals(byId.getName(), "Test addNewTask");
         assertEquals(byId.getDescription(), "Test addNewTask description");
@@ -73,7 +73,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void createTask_putOnListTasks_checkListTasks() {
+    void createTaskPutOnListTasksCheckListTasks() {
         //setup
         TaskManager taskManager = Managers.getDefault();
         Task task = new Task("Test addNewTask", "Test addNewTask description", NEW);
@@ -89,7 +89,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void createEpic_putOnListEpic_checkListEpic() {
+    void createEpicPutOnListEpicCheckListEpic() {
         //setup
         Managers.setTaskManager(null);
         TaskManager taskManager = Managers.getDefault();
@@ -106,7 +106,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void createSubtask_putOnListSubtask_checkListSubtask() {
+    void createSubtaskPutOnListSubtaskCheckListSubtask() {
         //setup
         TaskManager taskManager = Managers.getDefault();
         Epic epic = new Epic("Test addNewEpicSubtask", "Test addNewEpic description", NEW);

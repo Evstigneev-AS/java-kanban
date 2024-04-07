@@ -12,12 +12,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class InMemoryHistoryManagerTest {
     @Test
-    public void tasks_added_to_historyManager_retain_previous_version_of_task() {
+    public void tasksAddedToHistoryManagerRetainPreviousVersionOfTask() {
         // setup
         TaskManager taskManager = Managers.getDefault();
         HistoryManager defaultHistory = Managers.getDefaultHistory();
         Long task1 = taskManager.createTask(new Task("Test addNewTask", "Test addNewTask description", NEW));
-        Task byId = taskManager.getById(task1);
+        Task byId = taskManager.taskById(task1);
         byId.setStatus(IN_PROGRESS);
         taskManager.updateTask(byId);
 
@@ -30,7 +30,7 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void addNewHistoryOnListHistory_checkListHistory() {
+    void addNewHistoryOnListHistoryCheckListHistory() {
         // setup
         Managers.setHistoryManager(null);
         Managers.setTaskManager(null);
@@ -40,7 +40,7 @@ class InMemoryHistoryManagerTest {
 
         // act
         Long taskId = taskManager.createTask(task);
-        taskManager.getById(taskId);
+        taskManager.taskById(taskId);
 
         // verify
         final List<Task> history = historyManager.getHistory();

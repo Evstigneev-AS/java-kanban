@@ -18,7 +18,7 @@ public interface TaskManager {
 
     Long createTask(Task task);
 
-    Task getById(Long id);
+    Task taskById(Long id);
 
     void delete(Long id);
 
