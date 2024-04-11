@@ -10,8 +10,9 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void add(Task task) {
-        if (this.history.size() == 10) {
-            this.history.removeFirst();
+        boolean taskDouble=this.history.contains(task);
+        if (taskDouble){
+            this.history.remove(task);
         }
         this.history.add(task);
     }
