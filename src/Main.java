@@ -52,7 +52,9 @@ public class Main {
 
 
         manager.delete(id1);
+
         manager.deleteEpicById(id3);
+
 
     }
 
