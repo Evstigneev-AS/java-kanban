@@ -16,11 +16,11 @@ public class MainHistory {
         Epic epic = new Epic("Ремонт квартиры", "Необходимо приобрести",
                 Task.Status.NEW);
         Long id3 = manager.createEpic(epic);
-        Long id4 = manager.createSubtask(new Subtask("Нужен цемент", "купить 30 мешков цемента по 25 кг!",
+        Long id4 = manager.createSubtask(new Subtask("Нужен цемент", "Купить 30 мешков цемента по 25 кг!",
                 Task.Status.NEW, epic));
-        Long id5 = manager.createSubtask(new Subtask("Нужны шурупы", "купить 150 шт. шурупов М8х100!",
+        Long id5 = manager.createSubtask(new Subtask("Нужны шурупы", "Купить 150 шт. шурупов М8х100!",
                 Task.Status.NEW, epic));
-        Long id6 = manager.createSubtask(new Subtask("Нужны гвозди", "купить 300 шт. шурупов 10х150!",
+        Long id6 = manager.createSubtask(new Subtask("Нужны гвозди", "Купить 300 шт. шурупов 10х150!",
                 Task.Status.NEW, epic));
         Epic epic1 = new Epic("Устроиться на работу", "Поиск работы", Task.Status.NEW);
         Long id7 = manager.createEpic(epic1);

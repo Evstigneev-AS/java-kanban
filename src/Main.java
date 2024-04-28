@@ -18,9 +18,9 @@ public class Main {
         Epic epic = new Epic("Ремонт квартиры", "Необходимо приобрести",
                 Task.Status.NEW);
         Long id3 = manager.createEpic(epic);
-        Long id4 = manager.createSubtask(new Subtask("Нужен цемент", "купить 30 мешков цемента по 25 кг!",
+        Long id4 = manager.createSubtask(new Subtask("Нужен цемент", "Купить 30 мешков цемента по 25 кг!",
                 Task.Status.NEW, epic));
-        Long id5 = manager.createSubtask(new Subtask("Нужны шурупы", "купить 150 шт. шурупов М8х100!",
+        Long id5 = manager.createSubtask(new Subtask("Нужны шурупы", "Купить 150 шт. шурупов М8х100!",
                 Task.Status.NEW, epic));
         Epic epic1 = new Epic("Устроиться на работу", "Поиск работы", Task.Status.NEW);
         Long id6 = manager.createEpic(epic1);
@@ -42,9 +42,9 @@ public class Main {
         printAllTasks(manager, historyTask);
         manager.updateTask(new Task(id1, "Поход в магазин", "Купить хлеб", Task.Status.IN_PROGRESS));
         manager.updateTask(new Task(id2, "Поход в гараж", "Зарядить аккумулятор", Task.Status.DONE));
-        manager.updateSubtask(new Subtask(id4, "Нужен цемент", "купить 30 мешков цемента по 25 кг!",
+        manager.updateSubtask(new Subtask(id4, "Нужен цемент", "Купить 30 мешков цемента по 25 кг!",
                 Task.Status.DONE, epic));
-        manager.updateSubtask(new Subtask(id5, "Нужны шурупы", "купить 150 шт. шурупов М8х100!",
+        manager.updateSubtask(new Subtask(id5, "Нужны шурупы", "Купить 150 шт. шурупов М8х100!",
                 Task.Status.DONE, epic));
         manager.updateSubtask(new Subtask(id7, "Нужен резюме", "Найти шаблон резюме!",
                 Task.Status.IN_PROGRESS, epic1));
