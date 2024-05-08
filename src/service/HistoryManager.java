@@ -5,9 +5,7 @@ import model.Task;
 import java.util.List;
 
 public interface HistoryManager {
-    void add(Task task);
+    void add(Task task);//должен помечать задачи как просмотренные
 
-    void remove(Long id);
-
-    List<Task> getHistory();
+    List<Task> getHistory();//возвращать их список
 }

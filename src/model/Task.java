@@ -30,7 +30,6 @@ public class Task {
     public Task(Task t) {
         this(t.getId(), t.getName(), t.getDescription(), t.getStatus());
     }
-
     @Override
     public String toString() {
         return "Task{" +

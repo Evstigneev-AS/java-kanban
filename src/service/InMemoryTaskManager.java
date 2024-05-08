@@ -43,7 +43,6 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void delete(Long id) {
         tasks.remove(id);
-        historyManager.remove(id);
     }
 
     @Override
@@ -66,11 +65,10 @@ public class InMemoryTaskManager implements TaskManager {
     public void deleteAllTasks() {
         List<Task> all = getAllTasks();
         for (Task task : all) {
-            delete(task.getId());
+            tasks.remove(task.getId());
         }
     }
 
-    //Epic
     @Override
     public Long createEpic(String name, String description) {
         Long currentId = getNextId();
@@ -104,7 +102,7 @@ public class InMemoryTaskManager implements TaskManager {
         List<Epic> all = getAllEpic();
         deleteAllSubtask();
         for (Task task : all) {
-            delete(task.getId());
+            tasks.remove(task.getId());
         }
     }
 
@@ -123,14 +121,13 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteEpicById(Long id) {
-        List<Long> subtasks = getSubtaskByEpicId((tasks.get(id)).getId()).stream().map(Task::getId).toList();
-        for (Long subtask : subtasks) {
-            deleteSubtaskId(subtask);
+        ArrayList<Subtask> subtasks = getSubtaskByEpicId((tasks.get(id)).getId());
+        for (Subtask subtask : subtasks) {
+            tasks.remove(subtask.getId());
         }
-        delete(id);
+        tasks.remove(id);
     }
 
-    //Subtask
     @Override
     public ArrayList<Subtask> getSubtaskByEpicId(Long id) {
         Epic epic = (Epic) tasks.get(id);
@@ -171,7 +168,7 @@ public class InMemoryTaskManager implements TaskManager {
         List<Subtask> all = getAllSubtask();
         clearAllEpicSubtask();
         for (Task task : all) {
-            delete(task.getId());
+            tasks.remove(task.getId());
         }
     }
 
@@ -179,7 +176,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void deleteSubtaskId(Long id) {
         ArrayList<Subtask> subtasks = ((Subtask) tasks.get(id)).getEpic().getSubtasks();
         subtasks.remove((Subtask) tasks.get(id));
-        delete(id);
+        tasks.remove(id);
     }
 
     @Override
