@@ -9,10 +9,10 @@ public class Main {
 
     public static void main(String[] args) {
         Managers managers = new Managers();
-        TaskManager manager = managers.getDefault();
+        TaskManager manager = managers.getDefaultFile();
         HistoryManager historyTask = managers.getDefaultHistory();
 
-        Long id1 = manager.createTask(new Task("Поход в магазин", "Купить хлеб", Task.Status.NEW));
+        Long id1 = manager.createTask(new Task("Поход в магазин", "Купить кофе", Task.Status.NEW));
         Long id2 = manager.createTask(new Task("Поход в гараж", "Зарядить аккумулятор",
                 Task.Status.NEW));
         Epic epic = new Epic("Ремонт квартиры", "Необходимо приобрести",
@@ -27,7 +27,6 @@ public class Main {
         Long id7 = manager.createSubtask(new Subtask("Нужен резюме", "Найти шаблон резюме!",
                 Task.Status.NEW, epic1));
 
-
         manager.taskById(id4);
         manager.taskById(id4);
         manager.taskById(id5);
@@ -40,7 +39,7 @@ public class Main {
         manager.taskById(id2);
 
         printAllTasks(manager, historyTask);
-        manager.updateTask(new Task(id1, "Поход в магазин", "Купить хлеб", Task.Status.IN_PROGRESS));
+        manager.updateTask(new Task(id1, "Поход в магазин", "Купить хлеб", Task.Status.DONE));
         manager.updateTask(new Task(id2, "Поход в гараж", "Зарядить аккумулятор", Task.Status.DONE));
         manager.updateSubtask(new Subtask(id4, "Нужен цемент", "Купить 30 мешков цемента по 25 кг!",
                 Task.Status.DONE, epic));
@@ -49,7 +48,6 @@ public class Main {
         manager.updateSubtask(new Subtask(id7, "Нужен резюме", "Найти шаблон резюме!",
                 Task.Status.IN_PROGRESS, epic1));
         printAllTasks(manager, historyTask);
-
 
         manager.delete(id1);
 

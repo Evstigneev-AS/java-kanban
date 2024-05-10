@@ -11,6 +11,12 @@ public class Managers {
         return taskManager;
     }
 
+    public static TaskManager getDefaultFile() {
+        if (taskManager == null) {
+            taskManager = new FileBackedTaskManager();
+        }
+        return taskManager;
+    }
     public static HistoryManager getDefaultHistory() {
         if (historyManager == null) {
             historyManager = new InMemoryHistoryManager();
