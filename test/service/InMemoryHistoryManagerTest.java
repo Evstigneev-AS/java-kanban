@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class InMemoryHistoryManagerTest {
     @Test
     public void tasksAddedToHistoryManagerRetainPreviousVersionOfTask() {
-        // setup
+        // setup - object with which we will work and the input data
         TaskManager taskManager = Managers.getDefault();
         HistoryManager defaultHistory = Managers.getDefaultHistory();
         Long task1 = taskManager.createTask(new Task("Test addNewTask", "Test addNewTask description", NEW));
@@ -21,28 +21,28 @@ class InMemoryHistoryManagerTest {
         byId.setStatus(IN_PROGRESS);
         taskManager.updateTask(byId);
 
-        // act
+        // act - perform the operation we are testing
         Task historyTask = defaultHistory.getHistory().getFirst();
 
-        // verify
+        // verify - statements about the correctness of an action
         assertEquals(NEW, historyTask.getStatus());
 
     }
 
     @Test
     void addNewHistoryOnListHistoryCheckListHistory() {
-        // setup
+        // setup - object with which we will work and the input data
         Managers.setHistoryManager(null);
         Managers.setTaskManager(null);
         TaskManager taskManager = Managers.getDefault();
         HistoryManager historyManager = Managers.getDefaultHistory();
         Task task = new Task("Test addNewTaskHistory", "Test addNewTask description", NEW);
 
-        // act
+        // act - perform the operation we are testing
         Long taskId = taskManager.createTask(task);
         taskManager.taskById(taskId);
 
-        // verify
+        // verify - statements about the correctness of an action
         final List<Task> history = historyManager.getHistory();
         assertNotNull(history, "История не пустая.");
         assertEquals(1, history.size(), "История не пустая.");

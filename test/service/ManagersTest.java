@@ -8,55 +8,55 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class ManagersTest {
     @Test
     public void getDefaultCheckResult() {
-        // setup
+        // setup - object with which we will work and the input data
         InMemoryTaskManager taskManager = new InMemoryTaskManager();
         Managers managers = new Managers();
         Managers.setTaskManager(taskManager);
 
-        // act
+        // act - perform the operation we are testing
         TaskManager result = managers.getDefault();
 
-        // verify
+        // verify - statements about the correctness of an action
         assertEquals(result, taskManager);
     }
 
     @Test
     public void getDefaultInMemoryTaskManagerIsNullCheckResult() {
-        // setup
+        // setup - object with which we will work and the input data
         Managers managers = new Managers();
         Managers.setTaskManager(null);
 
-        // act
+        // act - perform the operation we are testing
         TaskManager result = managers.getDefault();
 
-        // verify
+        // verify - statements about the correctness of an action
         assertNotNull(result);
     }
 
     @Test
     public void getDefaultHistoryCheckResult() {
-        // setup
+        // setup - object with which we will work and the input data
         InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
         Managers managers = new Managers();
         Managers.setHistoryManager(historyManager);
 
-        // act
+        // act - perform the operation we are testing
         HistoryManager result = managers.getDefaultHistory();
 
-        // verify
+        // verify - statements about the correctness of an action
         assertEquals(result, historyManager);
     }
 
     @Test
     public void getDefaultHistoryInMemoryHistoryManagerIsNullCheckResult() {
-        // setup
+        // setup - object with which we will work and the input data
         Managers managers = new Managers();
         Managers.setHistoryManager(null);
 
-        // act
+        // act - perform the operation we are testing
         HistoryManager result = managers.getDefaultHistory();
 
-        // verify
+        // verify - statements about the correctness of an action
         assertNotNull(result);
     }
 

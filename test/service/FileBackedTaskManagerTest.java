@@ -38,14 +38,14 @@ public class FileBackedTaskManagerTest {
 
     @Test
     public void createFailCheckFailAdded() throws IOException {
-        // setup
+        // setup - object with which we will work and the input data
         File file = new File(absolutePath);
         file.delete();
 
-        // act
+        // act - perform the operation we are testing
         fileBackedTaskManager.createFile();
 
-        // verify
+        // verify - statements about the correctness of an action
         assertTrue(new File(absolutePath).exists());
         Scanner scanner = new Scanner(new File(absolutePath));
         String s = scanner.nextLine();
@@ -54,16 +54,16 @@ public class FileBackedTaskManagerTest {
 
     @Test
     public void testReaderFileTask() throws IOException {
-        // setup
+        // setup - object with which we will work and the input data
         String line = "1, TASK, Task name, DONE, Task description, ";
         FileWriter writer = new FileWriter(absolutePath, true);
         writer.write(line);
         writer.close();
 
-        // act
+        // act - perform the operation we are testing
         fileBackedTaskManager.readerFile();
 
-        // verify
+        // verify - statements about the correctness of an action
         HashMap<Long, Task> table = fileBackedTaskManager.getTable();
         Task task = new Task(1L, "Task name", "Task description", Task.Status.DONE);
         assertEquals(task, table.get(1L));
@@ -71,7 +71,7 @@ public class FileBackedTaskManagerTest {
 
     @Test
     public void testWriteFileTask() throws FileNotFoundException {
-        // setup
+        // setup - object with which we will work and the input data
         Task task = new Task(1L, "Task name", "Task description", Task.Status.DONE);
         Epic epic = new Epic(2L, "Task name", "Task description", Task.Status.DONE);
         Subtask subtask = new Subtask(3L, "Task name", "Task description", Task.Status.DONE, epic);
@@ -80,10 +80,10 @@ public class FileBackedTaskManagerTest {
         table.put(2L, epic);
         table.put(3L, subtask);
 
-        // act
+        // act - perform the operation we are testing
         fileBackedTaskManager.writeFileTask();
 
-        // verify
+        // verify - statements about the correctness of an action
         Scanner scanner = new Scanner(new File(absolutePath));
         String s = scanner.nextLine();
         assertEquals("id, type, name, status, description, epic id", s);
