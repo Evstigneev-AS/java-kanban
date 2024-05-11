@@ -1,5 +1,7 @@
 package model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -8,6 +10,8 @@ public class Task {
     private String description;
     private Status status;
     private Type type;
+    private Duration duration;
+    private LocalDateTime startTime;
 
     public enum Status {
         NEW,
