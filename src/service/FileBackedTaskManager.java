@@ -66,49 +66,49 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
 
     private Task getRecordFromLine(String line) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy_HH:mm");
-        String[] split = line.split(", ");
-        long id = Long.parseLong(split[0]);
+        String[] fields = line.split(", ");
+        long id = Long.parseLong(fields[0]);
         if (id > startId) {
             startId = id;
         }
-        if ("SUBTASK".equalsIgnoreCase(split[1])) {
-            if (split[5].equals("") || split[6].equals("")) {
-                Long epicId = (Long.parseLong(split[7]));
+        if ("SUBTASK".equalsIgnoreCase(fields[1])) {
+            if (fields[5].equals("") || fields[6].equals("")) {
+                Long epicId = (Long.parseLong(fields[7]));
                 Epic epic = (Epic) super.table.get(epicId);
-                String status = split[3];
+                String status = fields[3];
                 Task.Status status1 = Task.Status.valueOf(status);
-                Subtask subtask = new Subtask(id, split[2], split[4], status1, epic);
+                Subtask subtask = new Subtask(id, fields[2], fields[4], status1, epic);
                 epic.getSubtasks().add(subtask);
                 return subtask;
             }
-            Long epicId = (Long.parseLong(split[7]));
+            Long epicId = (Long.parseLong(fields[7]));
             Epic epic = (Epic) super.table.get(epicId);
-            String status = split[3];
-            Duration duration = Duration.ofMinutes(Long.parseLong(split[5]));
-            LocalDateTime startTime = LocalDateTime.parse(split[6], formatter);
+            String status = fields[3];
+            Duration duration = Duration.ofMinutes(Long.parseLong(fields[5]));
+            LocalDateTime startTime = LocalDateTime.parse(fields[6], formatter);
             Task.Status status1 = Task.Status.valueOf(status);
-            Subtask subtask = new Subtask(id, split[2], split[4], status1, duration, startTime, epic);
+            Subtask subtask = new Subtask(id, fields[2], fields[4], status1, duration, startTime, epic);
             epic.getSubtasks().add(subtask);
             epic.calculateDurationAndTimes();
             return subtask;
         }
-        if ("EPIC".equalsIgnoreCase(split[1])) {
-            String status = split[3];
+        if ("EPIC".equalsIgnoreCase(fields[1])) {
+            String status = fields[3];
             Task.Status status1 = Task.Status.valueOf(status);
-            Epic epic = new Epic(id, split[2], split[4], status1);
+            Epic epic = new Epic(id, fields[2], fields[4], status1);
             return epic;
         }
-        if (split.length == 5) {
-            String status = split[3];
+        if (fields.length == 5) {
+            String status = fields[3];
             Task.Status status1 = Task.Status.valueOf(status);
-            Task task = new Task(id, split[2], split[4], status1);
+            Task task = new Task(id, fields[2], fields[4], status1);
             return task;
         } else {
-            String status = split[3];
-            Duration duration = Duration.ofMinutes(Long.parseLong(split[5]));
-            LocalDateTime startTime = LocalDateTime.parse(split[6], formatter);
+            String status = fields[3];
+            Duration duration = Duration.ofMinutes(Long.parseLong(fields[5]));
+            LocalDateTime startTime = LocalDateTime.parse(fields[6], formatter);
             Task.Status status1 = Task.Status.valueOf(status);
-            Task task = new Task(id, split[2], split[4], status1, duration, startTime);
+            Task task = new Task(id, fields[2], fields[4], status1, duration, startTime);
             return task;
         }
     }
