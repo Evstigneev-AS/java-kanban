@@ -4,14 +4,14 @@ import model.Epic;
 import model.Subtask;
 import model.Task;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
     protected Long id = 0L;
     protected HashMap<Long, Task> table = new HashMap<>();
     HistoryManager historyManager = Managers.getDefaultHistory();
+    private TreeSet<Task> prioritizedTasks;
 
     public Long getNextId() {
         return id++;
@@ -152,6 +152,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
         table.put(subtask.getId(), subtask);
         subtask.getEpic().getSubtasks().add(subtask);
+        subtask.getEpic().calculateDurationAndTimes();
         return subtask.getId();
     }
 
@@ -179,7 +180,10 @@ public class InMemoryTaskManager implements TaskManager {
     public void deleteSubtaskId(Long id) {
         ArrayList<Subtask> subtasks = ((Subtask) table.get(id)).getEpic().getSubtasks();
         subtasks.remove((Subtask) table.get(id));
+        Epic epic = ((Subtask) table.get(id)).getEpic();
         delete(id);
+        epic.calculateDurationAndTimes();
+
     }
 
     @Override
@@ -191,7 +195,41 @@ public class InMemoryTaskManager implements TaskManager {
             subtask.getEpic().updateStatus();
         }
         table.put(subtask.getId(), subtask);
+        subtask.getEpic().calculateDurationAndTimes();
     }
 
+    @Override
+    public List<Task> getPrioritizedTasks() {
+        this.prioritizedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime, Comparator.nullsLast(Comparator.naturalOrder())));
+        for (Task task : table.values()) {
+            addPrioritizedTasks(task);
+        }
+        return new ArrayList<>(prioritizedTasks);
+    }
 
+    public boolean areTasksOverlapping(Task task1, Task task2) {
+        if (task1.getStartTime() == null || task2.getStartTime() == null) {
+            return false;
+        }
+        LocalDateTime start1 = task1.getStartTime();
+        LocalDateTime end1 = task1.getEndTime();
+        LocalDateTime start2 = task2.getStartTime();
+        LocalDateTime end2 = task2.getEndTime();
+        return start1.isBefore(end2) && start2.isBefore(end1);
+    }
+
+    public void addPrioritizedTasks(Task task) {
+        Task doubling = null;
+        for (Task existingTask : prioritizedTasks) {
+            if (areTasksOverlapping(existingTask, task)) {
+                doubling = task;
+            }
+        }
+        if (doubling != null) {
+            prioritizedTasks.remove(doubling);
+        }
+        if (task.getStartTime() != null) {
+            prioritizedTasks.add(task);
+        }
+    }
 }

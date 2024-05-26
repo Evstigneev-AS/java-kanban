@@ -49,7 +49,7 @@ public class FileBackedTaskManagerTest {
         assertTrue(new File(absolutePath).exists());
         Scanner scanner = new Scanner(new File(absolutePath));
         String s = scanner.nextLine();
-        assertEquals("id, type, name, status, description, epic id", s);
+        assertEquals("id, type, name, status, description, duration, startTime, epic id", s);
     }
 
     @Test
@@ -86,12 +86,13 @@ public class FileBackedTaskManagerTest {
         // verify - statements about the correctness of an action
         Scanner scanner = new Scanner(new File(absolutePath));
         String s = scanner.nextLine();
-        assertEquals("id, type, name, status, description, epic id", s);
+        assertEquals("id, type, name, status, description, duration, startTime, epic id", s);
         s = scanner.nextLine();
-        assertEquals("1, TASK, Task name, DONE, Task description, ", s);
+        assertEquals("1, TASK, Task name, DONE, Task description, , , ", s);
         s = scanner.nextLine();
-        assertEquals("2, EPIC, Task name, DONE, Task description, ", s);
+        assertEquals("2, EPIC, Task name, DONE, Task description, , , ", s);
         s = scanner.nextLine();
-        assertEquals("3, SUBTASK, Task name, DONE, Task description, 2", s);
+        assertEquals("3, SUBTASK, Task name, DONE, Task description, , , 2", s);
     }
+
 }
