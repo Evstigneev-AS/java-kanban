@@ -5,11 +5,13 @@ import model.Subtask;
 import model.Task;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static model.Task.Status.NEW;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryTaskManagerTest {
 
@@ -192,5 +194,54 @@ class InMemoryTaskManagerTest {
         taskManager.deleteAllSubtask();
         final List<Subtask> subtasks = taskManager.getAllSubtask();
         assertEquals(0, subtasks.size(), "Неверное количество задач.");
+    }
+
+    @Test
+    public void testGetPrioritizedTasksNoTasks() {
+        // setup - object with which we will work and the input data
+        InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
+
+        // act - perform the operation we are testing
+        List<Task> prioritizedTasks = inMemoryTaskManager.getPrioritizedTasks();
+
+        // verify - statements about the correctness of an action
+        assertTrue(prioritizedTasks.isEmpty(), "The list should be empty when no tasks are present.");
+    }
+
+    @Test
+    public void testGetPrioritizedTasksWithNonOverlappingTasks() {
+        // setup - object with which we will work and the input data
+        InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
+        Task task1 = new Task("Test addNewTask", "Test addNewTask description", NEW, Duration.ofHours(1), LocalDateTime.of(2024, 2, 1, 9, 10));
+        Task task2 = new Task("Test addNewTask", "Test addNewTask description", NEW, Duration.ofHours(1), LocalDateTime.of(2024, 2, 2, 9, 10));
+
+        // act - perform the operation we are testing
+        Long taskId1 = inMemoryTaskManager.createTask(task1);
+        Long taskId2 = inMemoryTaskManager.createTask(task2);
+        List<Task> expectedTasks = new ArrayList<>();
+        expectedTasks.add(inMemoryTaskManager.taskById(taskId1));
+        expectedTasks.add(inMemoryTaskManager.taskById(taskId2));
+
+        // verify - statements about the correctness of an action
+        List<Task> prioritizedTasks = inMemoryTaskManager.getPrioritizedTasks();
+        assertEquals(expectedTasks, prioritizedTasks, "The tasks should be prioritized correctly when there are no overlaps.");
+    }
+
+    @Test
+    public void testGetPrioritizedTasks_WithOverlappingTasks() {
+        // setup - object with which we will work and the input data
+        InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
+        Task task1 = new Task("Test addNewTask", "Test addNewTask description", NEW, Duration.ofHours(1), LocalDateTime.of(2024, 2, 1, 9, 10));
+        Task task2 = new Task("Test addNewTask", "Test addNewTask description", NEW, Duration.ofHours(1), LocalDateTime.of(2024, 2, 1, 9, 10));
+
+        // act - perform the operation we are testing
+        Long taskId1 = inMemoryTaskManager.createTask(task1);
+        Long taskId2 = inMemoryTaskManager.createTask(task2);
+        List<Task> expectedTasks = new ArrayList<>();
+        expectedTasks.add(inMemoryTaskManager.taskById(taskId2));
+
+        // verify - statements about the correctness of an action
+        List<Task> prioritizedTasks = inMemoryTaskManager.getPrioritizedTasks();
+        assertEquals(expectedTasks, prioritizedTasks, "Only one task should be in the list when tasks overlap.");
     }
 }

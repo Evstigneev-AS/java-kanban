@@ -2,6 +2,7 @@ package model;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Task {
@@ -12,6 +13,7 @@ public class Task {
     private Type type;
     private Duration duration;
     private LocalDateTime startTime;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy_HH:mm");
 
     public enum Status {
         NEW,
@@ -34,19 +36,50 @@ public class Task {
         this.type = Type.TASK;
     }
 
+    public Task(Long id, String name, String description, Status status, Duration duration, LocalDateTime startTime) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.type = Type.TASK;
+        this.duration = duration;
+        this.startTime = startTime;
+    }
+
+    public Task(String name, String description, Status status, Duration duration, LocalDateTime startTime) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.type = Type.TASK;
+        this.duration = duration;
+        this.startTime = startTime;
+    }
+
     public Task(Task t) {
-        this(t.getId(), t.getName(), t.getDescription(), t.getStatus());
+        this(t.getId(), t.getName(), t.getDescription(), t.getStatus(), t.getDuration(), t.getStartTime());
     }
 
     @Override
     public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", type=" + type + '\'' +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", status=" + status +
-                '}';
+        if (startTime != null && duration != null) {
+            return "Task{" +
+                    "id=" + id +
+                    ", type=" + type + '\'' +
+                    ", name='" + name + '\'' +
+                    ", description='" + description + '\'' +
+                    ", status=" + status + '\'' +
+                    ", startTime='" + startTime.format(formatter) + '\'' +
+                    ", endTime=" + getEndTime().format(formatter) +
+                    '}';
+        } else {
+            return "Task{" +
+                    "id=" + id +
+                    ", type=" + type + '\'' +
+                    ", name='" + name + '\'' +
+                    ", description='" + description + '\'' +
+                    ", status=" + status +
+                    '}';
+        }
     }
 
     public Long getId() {
@@ -87,6 +120,37 @@ public class Task {
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        if (startTime != null && duration != null) {
+            return startTime.plus(duration);
+        }
+        return null;
+    }
+
+    public DateTimeFormatter getFormatter() {
+        return formatter;
+    }
+
+    public void setFormatter(DateTimeFormatter formatter) {
+        this.formatter = formatter;
     }
 
     @Override
