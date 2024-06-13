@@ -54,15 +54,21 @@ public class HttpUserServerTest {
 
     @Test
     void getUsers() throws IOException, InterruptedException, URISyntaxException {
+        // Create HTTP client and request
         HttpClient client = HttpClient.newHttpClient();
         URI uri = URI.create("http://localhost:8080/api/v1/users/");
         HttpRequest request = HttpRequest.newBuilder().uri(uri).GET().build();
+
+        // Send request and get response
         HttpResponse.BodyHandler<String> stringBodyHandler = HttpResponse.BodyHandlers.ofString();
         HttpResponse<String> response = client.send(request, stringBodyHandler);
+
         assertEquals(200, response.statusCode());
         Type userType = new TypeToken<ArrayList<User>>() {
         }.getType();
         List<User> actual = gson.fromJson(response.body(), userType);
+
+        // Verify the response
         assertNotNull(actual, "Пользователи не возвращаются");
         assertEquals(1, actual.size(), "Не верное количество пользователей");
         assertEquals(user, actual.get(0), "Пользователи не совпадают");
@@ -70,24 +76,34 @@ public class HttpUserServerTest {
 
     @Test
     void getUserById() throws IOException, InterruptedException {
+        // Create HTTP client and request
         HttpClient client = HttpClient.newHttpClient();
         URI uri = URI.create("http://localhost:8080/api/v1/users/1");
         HttpRequest request = HttpRequest.newBuilder().uri(uri).GET().build();
+
+        // Send request and get response
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         assertEquals(200, response.statusCode());
         Type userType = new TypeToken<User>() {
         }.getType();
         User actual = gson.fromJson(response.body(), userType);
+
+        // Verify the response
         assertNotNull(actual, "Пользователи не возвращаются");
         assertEquals(user, actual, "Пользователи не совпадают");
     }
 
     @Test
     void deleteUser() throws IOException, InterruptedException {
+        // Create HTTP client and request
         HttpClient client = HttpClient.newHttpClient();
         URI uri = URI.create("http://localhost:8080/api/v1/users/1");
         HttpRequest request = HttpRequest.newBuilder().uri(uri).DELETE().build();
+
+        // Send request and get response
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        // Verify the response
         assertEquals(200, response.statusCode());
     }
 }
