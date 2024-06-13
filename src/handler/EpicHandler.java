@@ -91,7 +91,7 @@ public class EpicHandler extends BaseHttpHandler implements HttpHandler {
         System.out.println("Тело запроса:\n" + taskJson);
         Epic task = Managers.getGson().fromJson(taskJson, Epic.class);
         Long id = task.getId();
-        if (id != null) {//update
+        if (id != null) {
             manager.updateEpic(task);
             Task taskCreate = manager.taskById(id);
             String json = Managers.getGson().toJson(taskCreate, Task.class);
@@ -100,7 +100,7 @@ public class EpicHandler extends BaseHttpHandler implements HttpHandler {
                 os.write(json.getBytes());
                 return json;
             }
-        } else {//create
+        } else {
             Long taskId = manager.createTask(task);
             if (taskId == null) {
                 sendHasInteractions(httpExchange);//406
