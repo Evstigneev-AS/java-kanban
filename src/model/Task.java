@@ -16,7 +16,7 @@ public class Task {
     private Duration duration;
     private LocalDateTime startTime;
     private User user;
-    private final static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy_HH:mm");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy_HH:mm");
 
     public enum Status {
         NEW,
