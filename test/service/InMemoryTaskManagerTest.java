@@ -228,7 +228,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    public void testGetPrioritizedTasks_WithOverlappingTasks() {
+    public void testGetPrioritizedTasksWithOverlappingTasks() {
         // setup - object with which we will work and the input data
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
         Task task1 = new Task("Test addNewTask", "Test addNewTask description", NEW, Duration.ofHours(1), LocalDateTime.of(2024, 2, 1, 9, 10));
@@ -238,7 +238,30 @@ class InMemoryTaskManagerTest {
         Long taskId1 = inMemoryTaskManager.createTask(task1);
         Long taskId2 = inMemoryTaskManager.createTask(task2);
         List<Task> expectedTasks = new ArrayList<>();
-        expectedTasks.add(inMemoryTaskManager.taskById(taskId2));
+        expectedTasks.add(inMemoryTaskManager.taskById(taskId1));
+        try {
+            expectedTasks.add(inMemoryTaskManager.taskById(taskId2));
+        } catch (Exception e) {
+            System.out.println("inMemoryTaskManager.taskById(taskId2)==null");
+        }
+
+        // verify - statements about the correctness of an action
+        List<Task> prioritizedTasks = inMemoryTaskManager.getPrioritizedTasks();
+        assertEquals(expectedTasks, prioritizedTasks, "Only one task should be in the list when tasks overlap.");
+    }
+
+    @Test
+    public void testGetPrioritizedTasksWithOverlappingTasksCekResalt() {
+        // setup - object with which we will work and the input data
+        InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
+        Task task1 = new Task("1", "1", NEW, Duration.ofHours(1), LocalDateTime.of(2024, 2, 1, 9, 10));
+        Task task2 = new Task("2", "2", NEW, Duration.ofMinutes(30), LocalDateTime.of(2024, 2, 1, 9, 10));
+
+        // act - perform the operation we are testing
+        Long taskId1 = inMemoryTaskManager.createTask(task1);
+        Long taskId2 = inMemoryTaskManager.createTask(task2);
+        List<Task> expectedTasks = new ArrayList<>();
+        expectedTasks.add(inMemoryTaskManager.taskById(taskId1));
 
         // verify - statements about the correctness of an action
         List<Task> prioritizedTasks = inMemoryTaskManager.getPrioritizedTasks();

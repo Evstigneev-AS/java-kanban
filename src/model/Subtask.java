@@ -5,7 +5,8 @@ import java.time.LocalDateTime;
 
 public class Subtask extends Task {
 
-    Epic epic;
+    transient Epic epic;
+    Long epicID;
 
     public Subtask(Long id, String name, String description, Status status, Epic epic) {
         super(id, name, description, status);
@@ -37,5 +38,13 @@ public class Subtask extends Task {
 
     public void setEpic(Epic epic) {
         this.epic = epic;
+    }
+
+    public Long getEpicID() {
+        return epicID;
+    }
+
+    public void setEpicID(Long epicID) {
+        this.epicID = epicID;
     }
 }

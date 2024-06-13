@@ -21,13 +21,14 @@ public class Main {
                 Task.Status.NEW);
         Long id3 = manager.createEpic(epic);
         Long id4 = manager.createSubtask(new Subtask("Нужен цемент", "Купить 30 мешков цемента по 25 кг!",
-                Task.Status.NEW, Duration.ofMinutes(60), LocalDateTime.of(2024, 4, 17, 11, 30), epic));
+                Task.Status.NEW, Duration.ofMinutes(60), LocalDateTime.of(2024, 4, 17, 10, 30), epic));
         Long id5 = manager.createSubtask(new Subtask("Нужны шурупы", "Купить 150 шт. шурупов М8х100!",
-                Task.Status.NEW, Duration.ofHours(3), LocalDateTime.of(2024, 5, 17, 12, 00), epic));
+                Task.Status.NEW, Duration.ofHours(1), LocalDateTime.of(2024, 4, 17, 11, 30), epic));
         Epic epic1 = new Epic("Устроиться на работу", "Поиск работы", Task.Status.NEW);
         Long id6 = manager.createEpic(epic1);
-        Long id7 = manager.createSubtask(new Subtask("Нужен резюме", "Найти шаблон резюме!",
+        Long id7 = manager.createSubtask(new Subtask("Нужно подготовить резюме", "Найти шаблон резюме!",
                 Task.Status.NEW, Duration.ofMinutes(15), LocalDateTime.of(2024, 5, 12, 9, 30), epic1));
+
 
         manager.taskById(id4);
         manager.taskById(id4);
@@ -39,6 +40,8 @@ public class Main {
         manager.taskById(id1);
         manager.taskById(id2);
         manager.taskById(id2);
+        manager.taskById(id6);
+
 
         printAllTasks(manager, historyTask);
 

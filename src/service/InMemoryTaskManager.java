@@ -27,6 +27,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Long createTask(Task task) {
+        if (!validationTask(task)) {
+            return null;
+        }
         if (task.getId() == null) {
             task.setId(getNextId());
         }
@@ -48,6 +51,12 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateTask(Task task) {
+        if (!validationTask(task)) {
+            return;
+        }
+        if (task.getId() == null) {
+            task.setId(getNextId());
+        }
         table.put(task.getId(), task);
     }
 
@@ -207,6 +216,33 @@ public class InMemoryTaskManager implements TaskManager {
         return new ArrayList<>(prioritizedTasks);
     }
 
+    public void addPrioritizedTasks(Task task) {
+        for (Task existingTask : prioritizedTasks) {
+            if (areTasksOverlapping(existingTask, task)) {
+                return;
+            }
+        }
+        if (task.getStartTime() != null) {
+            prioritizedTasks.add(task);
+        }
+    }
+
+    public void addTask(Task task) {
+
+    }
+
+    public boolean validationTask(Task task) {
+        for (Task addTask : table.values()) {
+            if (addTask.getId().equals(task.getId())) {
+                continue;
+            }
+            if (areTasksOverlapping(addTask, task)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public boolean areTasksOverlapping(Task task1, Task task2) {
         if (task1.getStartTime() == null || task2.getStartTime() == null) {
             return false;
@@ -215,21 +251,18 @@ public class InMemoryTaskManager implements TaskManager {
         LocalDateTime end1 = task1.getEndTime();
         LocalDateTime start2 = task2.getStartTime();
         LocalDateTime end2 = task2.getEndTime();
-        return start1.isBefore(end2) && start2.isBefore(end1);
-    }
-
-    public void addPrioritizedTasks(Task task) {
-        Task doubling = null;
-        for (Task existingTask : prioritizedTasks) {
-            if (areTasksOverlapping(existingTask, task)) {
-                doubling = task;
-            }
+        if (end1.equals(end2)) {
+            return true;
         }
-        if (doubling != null) {
-            prioritizedTasks.remove(doubling);
+        if (start2.equals(start1)) {
+            return true;
         }
-        if (task.getStartTime() != null) {
-            prioritizedTasks.add(task);
+        if (start2.isAfter(start1) && start2.isBefore(end1)) {
+            return true;
         }
+        if (end2.isBefore(end1) && end2.isAfter(start1)) {
+            return true;
+        }
+        return false;
     }
 }
