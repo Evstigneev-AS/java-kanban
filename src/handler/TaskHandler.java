@@ -118,6 +118,7 @@ public class TaskHandler extends BaseHttpHandler implements HttpHandler {
             try {
                 manager.delete(id);
             } catch (IndexOutOfBoundsException e) {
+                System.out.println(e.getMessage());
             }
             System.out.println("Удалили task id = " + id);
         }
