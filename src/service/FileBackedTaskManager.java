@@ -64,7 +64,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         scanner.close();
     }
 
-    private Task getRecordFromLine(String line) {
+    public Task getRecordFromLine(String line) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy_HH:mm");
         String[] fields = line.split(", ");
         long id = Long.parseLong(fields[0]);
@@ -206,7 +206,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         writeFileTask();
     }
 
-    HashMap<Long, Task> getTable() {
+    public HashMap<Long, Task> getTable() {
         return table;
     }
 }

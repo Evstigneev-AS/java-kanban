@@ -1,5 +1,7 @@
 package model;
 
+import user.User;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -13,7 +15,8 @@ public class Task {
     private Type type;
     private Duration duration;
     private LocalDateTime startTime;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy_HH:mm");
+    private User user;
+    private final static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy_HH:mm");
 
     public enum Status {
         NEW,
@@ -55,8 +58,29 @@ public class Task {
         this.startTime = startTime;
     }
 
+    public Task(Long id, String name, String description, Status status, Duration duration, LocalDateTime startTime, User user) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.type = Type.TASK;
+        this.duration = duration;
+        this.startTime = startTime;
+        this.user = user;
+    }
+
+    public Task(String name, String description, Status status, Duration duration, LocalDateTime startTime, User user) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.type = Type.TASK;
+        this.duration = duration;
+        this.startTime = startTime;
+        this.user = user;
+    }
+
     public Task(Task t) {
-        this(t.getId(), t.getName(), t.getDescription(), t.getStatus(), t.getDuration(), t.getStartTime());
+        this(t.getId(), t.getName(), t.getDescription(), t.getStatus(), t.getDuration(), t.getStartTime(), t.getUser());
     }
 
     @Override
@@ -149,8 +173,12 @@ public class Task {
         return formatter;
     }
 
-    public void setFormatter(DateTimeFormatter formatter) {
-        this.formatter = formatter;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
